@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BOOKMARKS=/home/chris/.bookmarks
+BOOKMARKS=~/.bookmarks
 MENU='dmenu -i -l 50'
 
 save_bookmark () {
