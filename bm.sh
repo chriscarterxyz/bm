@@ -48,8 +48,9 @@ case "$1" in
 	;;
 
 	-t)
-	# get bookmark in stdout
-	xdotool type "$(cat $BOOKMARKS | $MENU)"
+	# type a bookmark with dmenu
+	bookmark="$(cat $BOOKMARKS | $MENU)"
+	xdotool type "$( echo $bookmark | cut -d " " -f 1)"
 	;;
 
 	*)
