@@ -1,6 +1,10 @@
 #!/bin/sh
 
-BOOKMARKS=~/.bookmarks
+mkdir -p $HOME/.local/share/bm
+
+BOOKMARKS=$HOME/.local/share/bm/bookmarks
+touch $BOOKMARKS
+
 MENU='dmenu -i -l 50'
 
 save_bookmark () {
@@ -29,8 +33,8 @@ case "$1" in
 
 	-f)
 	# save a file
-	selected_file="$(ls -d $PWD/* | $MENU)"
-	save_bookmark "file://$selected_file"
+	options="$(echo $PWD) $(ls -d $PWD/*)"
+	save_bookmark "$($options | $MENU)"
 	;;
 
 	-s)
@@ -43,20 +47,22 @@ case "$1" in
 	cat $BOOKMARKS
 	;;
 
-	-o)
+	-t)
 	# get bookmark in stdout
-	cat $BOOKMARKS | $MENU
+	xdotool type "$(cat $BOOKMARKS | $MENU)"
 	;;
 
 	*)
 	# show help
-	echo 'Usage:\n\tbm [options] [<arguments>]'
-	echo '\nOptions:'
-	echo '\t-c              bookmark data on the clipboard'
-	echo '\t-f              bookmark a file using dmenu'
-	echo '\t-s <bookmark>   bookmark from the terminal'
-	echo '\t-l              list all bookmarks in terminal'
-	echo '\t-o              get a bookmark in stdout using dmenu'
+	echo 'Usage:'
+	echo '    bm [options] [<arguments>]'
+	echo ''
+	echo 'Options:'
+	echo '    -c              bookmark data on the clipboard'
+	echo '    -f              bookmark a file using dmenu'
+	echo '    -s <bookmark>   bookmark from the terminal'
+	echo '    -l              list all bookmarks in terminal'
+	echo '    -t              type a bookmark from dmenu'
 	
 	;;
 esac
